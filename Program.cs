@@ -42,6 +42,8 @@ namespace StereoKitPaintTutorial
             // UI object for manipulating our brush stroke size and color.
             paletteMenuLeft = new PaletteMenu();
             paletteMenuRight = new PaletteMenu();
+            paletteMenuLeft.OnColorChange = (color) => updateHandColor(Handed.Left, color);
+            paletteMenuRight.OnColorChange = (color) => updateHandColor(Handed.Right, color);
             paletteMenuRight.Pose = new Pose(new Vec3(0.1f, 0, -0.4f), Quat.LookDir(-0.25f, 0, 1));
 
             // Step the application each frame, until StereoKit is told to exit! The callback
@@ -64,6 +66,13 @@ namespace StereoKitPaintTutorial
 
             // We're done! Clean up StereoKit and all its resources :)
             StereoKitApp.Shutdown();
+        }
+
+        static void updateHandColor(Handed handed, Color color)
+        {
+            Material material = Default.MaterialHand.Copy();
+            material["color"] = color;
+            Input.HandMaterial(handed, material);
         }
 
         static void StepMenuWindow()

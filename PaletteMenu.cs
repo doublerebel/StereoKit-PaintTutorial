@@ -1,4 +1,5 @@
 ﻿using StereoKit;
+using System;
 
 namespace StereoKitPaintTutorial
 {
@@ -20,6 +21,7 @@ namespace StereoKitPaintTutorial
         public Pose Pose { get{ return _pose;  } set{ _pose  = value; } }
         public Color PaintColor { get{ return _color; } private set{ _color = value; } }
         public float PaintSize  { get{ return _size;  } private set{ _size  = value; } }
+        public Action<Color> OnColorChange { get; set; } = (color) => { };
 
         public void Step()
         {
@@ -59,7 +61,7 @@ namespace StereoKitPaintTutorial
             if (UI.VolumeAt(id, new Bounds(at, new Vec3(4, 4, 2) * Units.cm2m)))
             {
                 _color = color;
-                Default.MaterialHand["color"] = color;
+                OnColorChange(color);
             }
         }
     }
